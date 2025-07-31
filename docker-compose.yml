@@ -1,0 +1,17 @@
+    version: '3.8'
+    services:
+      db:
+        image: postgres:15.3-alpine # Specifies the PostgreSQL image and version
+        container_name: my-postgres-db # Assigns a name to the container
+        restart: always # Ensures the container restarts automatically
+        environment:
+          POSTGRES_DB: goapi # Sets the default database name
+          POSTGRES_USER: postgres # Sets the database user
+          POSTGRES_PASSWORD: postgres # Sets the database password
+        ports:
+          - "5432:5432" # Maps host port 5432 to container port 5432
+        volumes:
+          - db_data:/var/lib/postgresql/data # Persists data to a named volume
+    
+    volumes:
+      db_data: # Defines the named volume

@@ -1,0 +1,41 @@
+basePath: /
+definitions:
+  model.Task:
+    properties:
+      done:
+        type: boolean
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API para gestionar tareas usando Go, Gin y MongoDB.
+  title: Task API
+  version: "1.0"
+paths:
+  /tasks:
+    post:
+      consumes:
+      - application/json
+      description: Crea una nueva tarea en MongoDB
+      parameters:
+      - description: Tarea a crear
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/model.Task'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "500":
+          description: Internal Server Error
+      summary: Crea una tarea
+      tags:
+      - tasks
+swagger: "2.0"

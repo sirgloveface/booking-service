@@ -39,7 +39,7 @@ func main() {
 		booking.POST("/", handler.CreateBooking)
 		booking.GET("/:id", handler.GetBooking)
 		booking.GET("/", handler.ListBookings)
-		booking.DELETE("/", handler.DeleteBooking)
+		booking.DELETE("/bookings/:id", handler.DeleteBooking)
 	}
 
 	r.Run()

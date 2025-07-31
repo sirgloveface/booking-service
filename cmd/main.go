@@ -30,7 +30,10 @@ func main() {
 	repo := repositories.NewBookingRepository(db)
 	service := services.NewBookingService(repo)
 	handler := handler.NewBookingHandler(service)
-
+	// Public routes
+	r.GET("/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok"})
+	})
 	booking := r.Group("/bookings")
 	{
 		booking.POST("/", handler.CreateBooking)

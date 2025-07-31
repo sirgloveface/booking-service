@@ -51,3 +51,7 @@ func (r *BookingRepository) Delete(id string) error {
 	}
 	return result.Error
 }
+
+func (r *BookingRepository) Update(booking *model.Booking) error {
+	return r.db.Save(booking).Error
+}

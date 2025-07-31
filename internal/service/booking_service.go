@@ -35,3 +35,7 @@ func (s *BookingService) HasConflict(input *model.Booking) (bool, error) {
 func (s *BookingService) Delete(id string) error {
 	return s.repo.Delete(id)
 }
+
+func (s *BookingService) Update(booking *model.Booking) error {
+	return s.repo.Update(booking)
+}

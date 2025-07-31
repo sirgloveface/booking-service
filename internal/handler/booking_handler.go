@@ -84,3 +84,35 @@ func (h *BookingHandler) DeleteBooking(c *gin.Context) {
 
 	c.Status(http.StatusNoContent)
 }
+
+func (h *BookingHandler) UpdateBooking(c *gin.Context) {
+	id := c.Param("id")
+	existingBooking, err := h.service.GetBookingByID(id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Reserva no encontrada"})
+		return
+	}
+
+	var updated model.Booking
+	if err := c.ShouldBindJSON(&updated); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Datos inválidos"})
+		return
+	}
+
+	// Mantener el ID original
+	updated.ID = existingBooking.ID
+
+	// Validar conflicto de horario con otras reservas
+	hasConflict, _ := h.service.HasConflict(&updated)
+	if hasConflict {
+		c.JSON(http.StatusConflict, gin.H{"error": "Conflicto de horario con otra reserva"})
+		return
+	}
+
+	if err := h.service.Update(&updated); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al actualizar la reserva"})
+		return
+	}
+
+	c.JSON(http.StatusOK, updated)
+}
